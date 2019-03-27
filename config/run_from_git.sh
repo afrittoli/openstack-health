@@ -3,6 +3,7 @@
 
 # - Service accounts, roles and secrets must exist in the target
 # - kubectl is configured to point to the cluster where the pipeline is executed
+# test
 
 # Optional (with defaults)
 GIT_REFERENCE=${GIT_REFERENCE:-$(git rev-parse HEAD)}
