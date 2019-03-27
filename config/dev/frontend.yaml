@@ -44,7 +44,7 @@ spec:
       revisionTemplate:  # template for building Revision
         spec:
           container:
-            image: registry.ng.bluemix.net/andreaf/health-frontend:__TAG__
+            image: us.icr.io/andreaf/health-frontend:__TAG__
             imagePullPolicy: Always
             env:
               - name: API_URL
