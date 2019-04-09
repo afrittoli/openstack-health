@@ -19,7 +19,7 @@ spec:
         default: n42org/tox
   steps:
     - name: run-tox
-      image: "${inputs.params.testImage}"
+      image: ${inputs.params.testImage}
       command: ["tox"]
       workingDir: "${inputs.params.pathToToxIni}"
       env:
