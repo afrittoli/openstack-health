@@ -4,7 +4,7 @@
 # Optional (with defaults)
 GIT_REFERENCE=${GIT_REFERENCE:-$(git rev-parse HEAD)}
 GIT_URL=${GIT_URL:-https://github.com/afrittoli/openstack-health}
-IMAGES_BASE_URL=${IMAGES_BASE_URL:-registry.ng.bluemix.net/andreaf}
+IMAGES_BASE_URL=${IMAGES_BASE_URL:-us.icr.io/andreaf}
 IMAGE_TAG=${IMAGE_TAG:-latest}
 USE_IMAGE_CACHE=${USE_IMAGE_CACHE:-"true"}
 # Test Images
