@@ -67,7 +67,7 @@ for COMPONENT in $COMPONENTS; do
   sed -e 's/__GIT_RESOURCE_NAME__/'$GIT_RESOURCE'/g' \
       -e 's/__IMAGE_RESOURCE_NAME__/'${IMAGE_RESOURCES[$COMPONENT]}'/g' \
       -e 's/__TAG__/'$IMAGE_TAG'/g' \
-      -e 's,__NODE_IMAGE_NAME__,'$IMAGES_BASE_URL'/health-test-node,g' \
+      -e 's,__NODE_IMAGE_NAME__,'$IMAGES_BASE_URL'/health-test-node:latest,g' \
       ${BASEDIR}/${PIPELINE_TYPE}/${COMPONENT}.yaml | kubectl apply -f - -n dev
 done
 
