@@ -11,5 +11,5 @@ RUN curl -sLO https://deb.nodesource.com/setup_6.x \
 RUN npm install -g eslint eslint-plugin-angular eslint-config-openstack
 
 # Cleanup
-RUN apt-get remove -q -y git curl build-essential libssl-dev rsync; \
+RUN apt-get remove -q -y build-essential libssl-dev rsync; \
     apt-get clean; apt-get purge -y --auto-remove
