@@ -14,13 +14,14 @@ TARGET_NAMESPACE=${TARGET_NAMESPACE:-dev}
 # Pipeline type is dev (build) or dev-test (build and run tests)
 PIPELINE_TYPE=${PIPELINE_TYPE:-dev}
 COMPONENTS=${COMPONENTS:-"api frontend"}
+API_URL=${API_URL:-"health-api.dev.af-tekton.sjc03.containers.appdomain.cloud"}
 
 BASEDIR=$(ROOT=$(dirname $0); cd $ROOT; pwd)
 
 # Variables
 declare -A IMAGE_RESOURCES
 
-echo "Buildin @$GIT_REFERENCE, IMAGE_TAG: $IMAGE_TAG"
+echo "Building @$GIT_REFERENCE, IMAGE_TAG: $IMAGE_TAG"
 
 ## Setup resources
 # GIT
@@ -67,6 +68,7 @@ for COMPONENT in $COMPONENTS; do
   sed -e 's/__GIT_RESOURCE_NAME__/'$GIT_RESOURCE'/g' \
       -e 's/__IMAGE_RESOURCE_NAME__/'${IMAGE_RESOURCES[$COMPONENT]}'/g' \
       -e 's/__TAG__/'$IMAGE_TAG'/g' \
+      -e 's/__API_URL__/'$API_URL'/g' \
       -e 's,__NODE_IMAGE_NAME__,'$IMAGES_BASE_URL'/health-test-node:latest,g' \
       ${BASEDIR}/${PIPELINE_TYPE}/${COMPONENT}.yaml | kubectl apply -f - -n dev
 done

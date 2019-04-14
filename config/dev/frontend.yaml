@@ -48,7 +48,7 @@ spec:
             imagePullPolicy: Always
             env:
               - name: API_URL
-                value: http://health-api.dev.af-health.sjc03.containers.appdomain.cloud/
+                value: __API_URL__
             ports:
               - name: http1
                 containerPort: 80
