@@ -8,7 +8,7 @@ RUN curl -sLO https://deb.nodesource.com/setup_4.x \
     && bash setup_4.x \
     && apt-get -y install nodejs git chromium-browser
 
-RUN npm install -g eslint eslint-plugin-angular eslint-config-openstack
+RUN npm install -g eslint@1.5.1 eslint-plugin-angular@0.12.0 eslint-config-openstack@1.2.2
 
 # Cleanup
 RUN apt-get remove -q -y build-essential libssl-dev rsync; \
