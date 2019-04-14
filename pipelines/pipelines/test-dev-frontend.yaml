@@ -33,20 +33,20 @@ spec:
       outputs:
         - name: builtImage
           resource: builtImage
-  - name: tox-npm-lint
-    taskRef:
-      name: tox
-    params:
-      - name: environment
-        value: npm-lint
-      - name: pathToToxIni
-        value: /workspace/workspace
-      - name: testImage
-        value: ${params.nodeTestImage}
-    resources:
-      inputs:
-        - name: workspace
-          resource: src
+  # - name: tox-npm-lint
+  #   taskRef:
+  #     name: tox
+  #   params:
+  #     - name: environment
+  #       value: npm-lint
+  #     - name: pathToToxIni
+  #       value: /workspace/workspace
+  #     - name: testImage
+  #       value: ${params.nodeTestImage}
+  #   resources:
+  #     inputs:
+  #       - name: workspace
+  #         resource: src
   - name: tox-npm-test
     taskRef:
       name: tox
