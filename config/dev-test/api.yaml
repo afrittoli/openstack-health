@@ -58,9 +58,9 @@ spec:
               - name: http1
                 containerPort: 80
                 protocol: TCP
-            readinessProbe:
-              httpGet:
-                path: /status
-            livenessProbe:
-              httpGet:
-                path: /status
+            # readinessProbe:
+            #   httpGet:
+            #     path: /status
+            # livenessProbe:
+            #   httpGet:
+            #     path: /status
