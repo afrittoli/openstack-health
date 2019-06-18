@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: pr-comment
+  labels:
+    app: dev-pipeline
+spec:
+  inputs:
+    resources:
+      - name: pr
+        type: pullrequest
+    params:
+      - name: comment
+        description: The text of the comment
+  steps:
+    - name: run-tox
+      image: ${inputs.params.testImage}
+      command: ["tox"]
+      workingDir: "${inputs.params.pathToToxIni}"
+      env:
+        - name: "TOXENV"
+          value: "${inputs.params.environment}"

@@ -36,6 +36,9 @@ spec:
     resources:
       - name: builtImage
         type: image
+        outputImageDir: /workspace/workspace/
+      - name: trigger
+        type: cloudevent
   volumes:
     - name: kaniko-base-image-cache
       persistentVolumeClaim:
@@ -46,7 +49,7 @@ spec:
       command: ["/bin/sh"]
       args: ["-x", "-c", "cp /workspace/workspace/${inputs.params.dockerIgnoreFile} /workspace/workspace/${inputs.params.pathToContext}/.dockerignore || true"]
     - name: build-and-push
-      image: gcr.io/kaniko-project/executor
+      image: gcr.io/kaniko-project/executor@sha256:c6e1f98d3ee4383078929d7b23f55328f5ae2bfeb234f91da61b2e423f5a58fe
       command:
         - /kaniko/executor
       args:
@@ -56,6 +59,27 @@ spec:
         - --reproducible
         - --destination=${outputs.resources.builtImage.url}:${inputs.params.imageTag}
         - --context=/workspace/workspace/${inputs.params.pathToContext}
+        - --digest-file=/workspace/workspace/__digest__
       volumeMounts:
         - name: kaniko-base-image-cache
           mountPath: /cache
+    - name: build-index-json
+      image: busybox
+      command:
+      - /bin/sh
+      args:
+      - -ce
+      - |
+        set -e
+        cat <<EOF > /workspace/workspace/index.json
+        {
+          "schemaVersion": 2,
+          "manifests": [
+            {
+              "mediaType": "application/vnd.oci.image.index.v1+json",
+              "size": 314,
+              "digest": "$(cat /workspace/workspace/__digest__)"
+            }
+          ]
+        }
+        EOF
