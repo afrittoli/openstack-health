@@ -12,6 +12,8 @@ spec:
       type: git
     - name: builtImage
       type: image
+    - name: imageTrigger
+      type: cloudevent
   tasks:
   - name: source-to-image-task
     taskRef:
@@ -30,6 +32,8 @@ spec:
       outputs:
         - name: builtImage
           resource: builtImage
+        - name: trigger
+          resource: imageTrigger
   - name: tox-pep8
     taskRef:
       name: tox
