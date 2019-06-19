@@ -17,7 +17,7 @@ spec:
       - name: pr
         type: pullRequest
   steps:
-    - name: add-comment-to-pr
+    - name: add-comment-to-pr-i-github
       image: python:3-alpine
       env:
         - name: COMMENT_BODY
