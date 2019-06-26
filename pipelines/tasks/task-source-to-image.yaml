@@ -4,6 +4,7 @@ metadata:
   name: source-to-image
   labels:
     app: dev-pipeline
+    type: source-to-image
 spec:
   inputs:
     resources:

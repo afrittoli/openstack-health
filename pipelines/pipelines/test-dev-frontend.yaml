@@ -15,7 +15,7 @@ spec:
       type: git
     - name: builtImage
       type: image
-    - name: imageTrigger
+    - name: prTrigger
       type: cloudevent
   tasks:
   - name: source-to-image-task
@@ -36,7 +36,7 @@ spec:
         - name: builtImage
           resource: builtImage
         - name: trigger
-          resource: imageTrigger
+          resource: prTrigger
   # - name: tox-npm-lint
   #   taskRef:
   #     name: tox
@@ -65,3 +65,6 @@ spec:
       inputs:
         - name: workspace
           resource: src
+      outputs:
+        - name: trigger
+          resource: prTrigger          

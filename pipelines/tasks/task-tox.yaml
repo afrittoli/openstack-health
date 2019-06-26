@@ -4,6 +4,7 @@ metadata:
   name: tox
   labels:
     app: dev-pipeline
+    type: tox
 spec:
   inputs:
     resources:
@@ -17,6 +18,10 @@ spec:
       - name: testImage
         description: Base image to run the tests
         default: n42org/tox
+  outputs:
+    resources:
+      - name: trigger
+        type: cloudevent
   steps:
     - name: run-tox
       image: ${inputs.params.testImage}
