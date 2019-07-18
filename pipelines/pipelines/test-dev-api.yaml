@@ -49,12 +49,12 @@ spec:
       outputs:
         - name: trigger
           resource: prTrigger
-  - name: tox-py36
+  - name: tox-py35
     taskRef:
       name: tox
     params:
       - name: environment
-        value: py36
+        value: py35
       - name: pathToToxIni
         value: /workspace/workspace
     resources:
@@ -64,12 +64,12 @@ spec:
       outputs:
         - name: trigger
           resource: prTrigger
-  - name: tox-cover
+  - name: tox-py27
     taskRef:
       name: tox
     params:
       - name: environment
-        value: cover
+        value: py27
       - name: pathToToxIni
         value: /workspace/workspace
     resources:
