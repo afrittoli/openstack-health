@@ -39,7 +39,7 @@ spec:
         type: image
         outputImageDir: /workspace/workspace/
       - name: trigger
-        type: cloudevent
+        type: cloudEvent
   volumes:
     - name: kaniko-base-image-cache
       persistentVolumeClaim:

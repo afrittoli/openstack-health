@@ -21,7 +21,7 @@ spec:
   outputs:
     resources:
       - name: trigger
-        type: cloudevent
+        type: cloudEvent
   steps:
     - name: run-tox
       image: ${inputs.params.testImage}

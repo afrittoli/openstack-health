@@ -16,7 +16,7 @@ spec:
     - name: builtImage
       type: image
     - name: prTrigger
-      type: cloudevent
+      type: cloudEvent
   tasks:
   - name: source-to-image-task
     taskRef:
@@ -67,4 +67,4 @@ spec:
           resource: src
       outputs:
         - name: trigger
-          resource: prTrigger          
+          resource: prTrigger
