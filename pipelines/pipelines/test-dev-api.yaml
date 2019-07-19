@@ -1,0 +1,66 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: dev-test-build-api
+spec:
+  params:
+    - name: imageTag
+      description: Tag of the images to be used.
+      default: "default"
+  resources:
+    - name: src
+      type: git
+    - name: builtImage
+      type: image
+    - name: prTrigger
+      type: cloudEvent
+  tasks:
+  - name: source-to-image-task
+    taskRef:
+      name: source-to-image
+    params:
+      - name: pathToContext
+        value: .
+      - name: pathToDockerFile
+        value: images/api/Dockerfile
+      - name: imageTag
+        value: "${params.imageTag}"
+    resources:
+      inputs:
+        - name: workspace
+          resource: src
+      outputs:
+        - name: builtImage
+          resource: builtImage
+        - name: trigger
+          resource: prTrigger
+  - name: tox-pep8
+    taskRef:
+      name: tox
+    params:
+      - name: environment
+        value: pep8
+      - name: pathToToxIni
+        value: /workspace/workspace
+    resources:
+      inputs:
+        - name: workspace
+          resource: src
+      outputs:
+        - name: trigger
+          resource: prTrigger
+  - name: tox-py35
+    taskRef:
+      name: tox
+    params:
+      - name: environment
+        value: py35
+      - name: pathToToxIni
+        value: /workspace/workspace
+    resources:
+      inputs:
+        - name: workspace
+          resource: src
+      outputs:
+        - name: trigger
+          resource: prTrigger

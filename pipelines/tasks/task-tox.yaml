@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: tox
+  labels:
+    app: dev-pipeline
+    type: tox
+spec:
+  inputs:
+    resources:
+      - name: workspace
+        type: git
+    params:
+      - name: environment
+        description: The tox environment to execute
+      - name: pathToToxIni
+        description: Folder where to run tox in
+      - name: testImage
+        description: Base image to run the tests
+        default: n42org/tox
+  outputs:
+    resources:
+      - name: trigger
+        type: cloudEvent
+  steps:
+    - name: run-tox
+      image: ${inputs.params.testImage}
+      command: ["tox"]
+      args: ["-e", "${inputs.params.environment}"]
+      workingDir: "${inputs.params.pathToToxIni}"

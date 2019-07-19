@@ -1,0 +1,58 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: pr-status
+  labels:
+    app: dev-pipeline
+spec:
+  inputs:
+    resources:
+      - name: pr
+        type: pullRequest
+    params:
+      - name: id
+        description: The job ID to update
+      - name: status
+        description: The Tekton task status
+      - name: description
+        description: A descriptive explanation of the status
+      - name: url
+        description: The base URL where to retrieve the logs from
+  outputs:
+    resources:
+      - name: pr
+        type: pullRequest
+  steps:
+    - name: update-status-job-id
+      image: python:3-alpine
+      env:
+        - name: STATUS_ID
+          value: ${inputs.params.id}
+        - name: STATUS_CODE
+          value: ${inputs.params.status}
+        - name: STATUS_DESCRIPTION
+          value: ${inputs.params.description}
+        - name: STATUS_BASE_URL
+          value: ${inputs.params.url}
+      command: ["/bin/sh"]
+      args:
+      - -ce
+      - |
+        set -e
+        cat <<EOF | python
+        import json
+        import os
+
+        with open("/workspace/pr/pr.json", 'r') as pr_file:
+          pr = json.load(pr_file)
+          pr['Statuses'].append(dict(
+            ID="$STATUS_ID",
+            Code="$STATUS_CODE",
+            Description="$STATUS_DESCRIPTION",
+            URL="/".join(["$STATUS_BASE_URL", "$STATUS_ID", str(pr['ID'])])))
+
+        os.rename("/workspace/pr/pr.json", "/workspace/pr/pr.json.backup")
+
+        with open("/workspace/pr/pr.json", 'w') as pr_file:
+          json.dump(pr, pr_file)
+        EOF

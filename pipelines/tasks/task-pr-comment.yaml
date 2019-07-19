@@ -1,0 +1,42 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: pr-comment
+  labels:
+    app: dev-pipeline
+spec:
+  inputs:
+    resources:
+      - name: pr
+        type: pullRequest
+    params:
+      - name: comment
+        description: The text of the comment
+  outputs:
+    resources:
+      - name: pr
+        type: pullRequest
+  steps:
+    - name: add-comment-to-pr-i-github
+      image: python:3-alpine
+      env:
+        - name: COMMENT_BODY
+          value: ${inputs.params.comment}
+      command: ["/bin/sh"]
+      args:
+      - -ce
+      - |
+        set -e
+        cat <<EOF | python
+        import json
+        import os
+
+        with open("/workspace/pr/pr.json", 'r') as pr_file:
+          pr = json.load(pr_file)
+          pr['Comments'].append(dict(text="$COMMENT_BODY"))
+
+        os.rename("/workspace/pr/pr.json", "/workspace/pr/pr.json.backup")
+
+        with open("/workspace/pr/pr.json", 'w') as pr_file:
+          json.dump(pr, pr_file)
+        EOF
