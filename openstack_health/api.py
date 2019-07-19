@@ -66,7 +66,6 @@ es_url = None
 def get_app():
     return app
 
-
 def _config_get(config_func, section, option, default_val=False):
     retval = default_val
     if default_val is not False:
@@ -78,11 +77,9 @@ def _config_get(config_func, section, option, default_val=False):
         retval = config_func(section, option)
     return retval
 
-
 @app.before_first_request
 def _setup():
     setup()
-
 
 def setup():
     global config
